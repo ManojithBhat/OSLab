@@ -1,8 +1,14 @@
 # OSLab
 ### Aim :  
-The objective of this project is to design and implement a two-pass assembler in C language which converts assembly language code into machine code. 
+To implement a Two-Pass assembler which takes a Machine-operation code file and an assembly level instruction file as a input and after execution, the binary code for each introduction and the information about labels are writtent in machine code file and symbol table file respectively.
 
 ### Theory:
+### Introduction
+Assembler is a program for converting instructions that are written in low-level assembly code into relocatable machine code and generating information along, for the loader.An assembler acts as a bridge between the high-level abstraction of assembly language and the binary machine code that a computer's central processing unit (CPU) can understand. The two-pass approach is a methodology employed in assemblers to efficiently process assembly code and generate corresponding machine code.
+
+### Single Pass Assembler
+An assembler that generates the object code directly in memory for immediate execution. It passes through the source code only once and generates instructions by evaluating the mnemonics in operation field and finds the value of symbol and literals to produce machine code.
+
 Two pass Assembler utilizes two stage process to convert assembly language to machine code 
 #### First Pass:
 Defines symbols and literals and remembers them in symbolic table form and literal table form respectively. Keep track of location counter. Process pseudo-operations.
