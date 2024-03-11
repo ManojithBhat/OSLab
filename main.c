@@ -322,7 +322,20 @@ int main()
      ilc++;
  }
    fclose(input_instructions);
-   
+      /*PRINT SYMBOL TABLE*/
+    Symbol *p;
+    p=head;
+    printf("\n\nSymbol Table\n\n");
+    FILE *f = fopen("symbol_table.txt","w+");
+    while(p!=NULL)
+    {
+        printf("%s :: ",p->name);
+        fprintf(f,"%s :: ",p->name);
+        printf("%d\n",p->add);
+        fprintf(f,"%d\n",p->add);
+        p = p->next;
+    }
+   fclose(f);
     /***********************************************************************************************/
     /*Second pass for generation of binary codes*/
    input_instructions = fopen("input_instructions.txt","r+");
@@ -417,23 +430,12 @@ int main()
             }
        }
 
-    }while(fgets(test, sizeof test, input_instructions)!=NULL);
-    printf("\n\nSymbol Table\n\n");
+    }
+    while(fgets(test, sizeof test, input_instructions)!=NULL);
+   
     fclose(input_instructions);
     fclose(output_machine_code);
     fclose(input_opcode);
-
-    /*PRINT SYMBOL TABLE*/
-    Symbol *p;
-    p=head;
-    FILE *f = fopen("symbol_table.txt","w+");
-    while(p!=NULL)
-    {
-        printf("%s :: ",p->name);
-        fprintf(f,"%s :: ",p->name);
-        printf("%d\n",p->add);
-        fprintf(f,"%d\n",p->add);
-        p = p->next;
-    }
+ 
     return 0;
 }
