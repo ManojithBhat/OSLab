@@ -9,12 +9,16 @@ struct Opcode               //This node is used for Hashing using Chaining
     char format[5];
     struct Opcode *next;
 };
+//This structure stores the opcode, which is a mnemonic in assembly language. The opcode is used to denote what operation is to be performed. An opcode is short for 'Operation Code'.
+//An opcode is a single instruction that can be executed by the CPU.
+//In assembly language mnemonic form an opcode is a command such as MOV or ADD or JMP.
 struct Symbol               //Symbol Table is made using Linked List to save space
 {
     char name[50];
     int add;
     struct Symbol *next;
 };
+//This table stores all the encountered labels and their corresponding memory addresses.
 typedef struct Opcode Opcode;
 typedef struct Symbol Symbol;
 
@@ -33,7 +37,8 @@ void reverseArray(int arr[], int start, int end)
         end--;
     }
 }
-int* conBin(int num) //function to convert in binary
+//The array must be reversed in order to convert it to a binary string
+int* conBin(int num) 
 {
     int t;
     int i, j;
@@ -52,8 +57,8 @@ int* conBin(int num) //function to convert in binary
     }
     return bin;
 }
-
-char* convertTo5BitBinaryString(int decimal)    //This decimal is between 0 and 31
+//Function to convert the decimal value of a symbol (which has been mapped) to binary
+char* convertTo5BitBinaryString(int decimal)   
 {
     printf("bitbinary function receives %d\n",decimal);
     char *str = (char *)malloc(5*sizeof(char));
@@ -81,6 +86,7 @@ char* convertTo5BitBinaryString(int decimal)    //This decimal is between 0 and 
      return str;
 
 }
+//This function converts the decimal value to a 5-bit binary string
 /*******************************************************************
     HASH TABLE IS USED TO STORE THE OPCODES BEING READ
 *******************************************************************/
@@ -93,6 +99,8 @@ int getHashIndex(char name[])
     }
     return sum%13;
 }
+//This is the hash function used to get the index at which the opcode must be stored in the hash table.
+//The function takes in the name of the opcode as input, calculates the sum of the ascii values of all the characters in the opcode and computes the remainder when divided by the size of the hash table, to get the index.
 void insertAtIndex(Opcode *Node,int index)
 {
     if(hash_table[index] == NULL) //boundary condition
@@ -111,11 +119,13 @@ void insertAtIndex(Opcode *Node,int index)
         Node->next=NULL;
     }
 }
+//After having calculated the index, the opcode is inserted at the index in the hash table.
 void insertIntoHashMap(Opcode *Node)
 {
     int index = getHashIndex(Node->name);
     insertAtIndex(Node,index);
 }
+//This function is used to get the hash index and insert the opcode at the index calculated.
 int *getAddressCode(char* temp)
 {
     Symbol * t = head;
@@ -133,6 +143,8 @@ int *getAddressCode(char* temp)
     val = conBin(num);
     return val;
 }
+//This function takes a symbol (presumably a label or address) as input and searches for it in the symbol table.
+//If found, it retrieves the associated address and converts it to a 10-bit binary array using the conBin function.
 char * getRegisterCode(char* temp)
 {
     char *s;
@@ -184,10 +196,12 @@ char * getRegisterCode(char* temp)
         s = "10101";
     return s;
 }
+//This function maps the registers to binary strings
 char *getConstantCode(int temp)
 {
     return convertTo5BitBinaryString(temp);
 }
+//This function calls the 5-bit binary string function to retreieve the 5 bit binary string value.
 struct Opcode* getOpcodeNode(char *op)
 {
     Opcode* temp = NULL;
@@ -217,6 +231,9 @@ struct Opcode* getOpcodeNode(char *op)
     }
 
 }
+//This function retrieves an opcode node from the hash table based on the opcode name.
+//It calculates the hash index using the getHashIndex function, then searches for the opcode in the corresponding hash chain.
+//If found, it returns a pointer to the Opcode structure; otherwise, it returns NULL.
 char * getOpcodeFormat(Opcode* temp)
 {
     return temp->format;
