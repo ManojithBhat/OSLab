@@ -9,15 +9,20 @@ struct Opcode               //This node is used for Hashing using Chaining
     char format[5];
     struct Opcode *next;
 };
-//This structure stores the opcode, which is a mnemonic in assembly language. The opcode is used to denote what operation is to be performed. An opcode is short for 'Operation Code'.
-//An opcode is a single instruction that can be executed by the CPU.
-//In assembly language mnemonic form an opcode is a command such as MOV or ADD or JMP.
+
+/*
+This structure stores the opcode, which is a mnemonic in assembly language. The opcode is used to denote what operation is to be performed. An opcode is short for 'Operation Code'.
+An opcode is a single instruction that can be executed by the CPU.
+In assembly language mnemonic form an opcode is a command such as MOV or ADD or JMP.
+*/
+
 struct Symbol               //Symbol Table is made using Linked List to save space
 {
     char name[50];
     int add;
     struct Symbol *next;
 };
+
 //This table stores all the encountered labels and their corresponding memory addresses.
 typedef struct Opcode Opcode;
 typedef struct Symbol Symbol;
@@ -37,6 +42,7 @@ void reverseArray(int arr[], int start, int end)
         end--;
     }
 }
+
 //The array must be reversed in order to convert it to a binary string
 int* conBin(int num) 
 {
@@ -44,10 +50,7 @@ int* conBin(int num)
     int i, j;
     int *bin;
     bin=(int*)malloc(10*sizeof(int));
-    for(i=0; i<10; i++)
-    {
-        bin[i]=0;
-    }
+    for(i=0; i<10; i++) bin[i]=0;
     i=9;
     t = num;
     while(t!=0)
@@ -57,10 +60,10 @@ int* conBin(int num)
     }
     return bin;
 }
+
 //Function to convert the decimal value of a symbol (which has been mapped) to binary
 char* convertTo5BitBinaryString(int decimal)   
 {
-    printf("bitbinary function receives %d\n",decimal);
     char *str = (char *)malloc(5*sizeof(char));
     int d[5]={0};
     int i=0,j=0;
@@ -84,12 +87,13 @@ char* convertTo5BitBinaryString(int decimal)
 
      printf("%s",str);
      return str;
-
 }
 //This function converts the decimal value to a 5-bit binary string
+
 /*******************************************************************
     HASH TABLE IS USED TO STORE THE OPCODES BEING READ
 *******************************************************************/
+
 int getHashIndex(char name[])
 {
     int sum=0,i=0;
@@ -99,8 +103,11 @@ int getHashIndex(char name[])
     }
     return sum%13;
 }
-//This is the hash function used to get the index at which the opcode must be stored in the hash table.
-//The function takes in the name of the opcode as input, calculates the sum of the ascii values of all the characters in the opcode and computes the remainder when divided by the size of the hash table, to get the index.
+
+/*This is the hash function used to get the index at which the opcode must be stored in the hash table.
+The function takes in the name of the opcode as input, calculates the sum of the ascii values of all the characters
+in the opcode and computes the remainder when divided by the size of the hash table, to get the index.*/
+
 void insertAtIndex(Opcode *Node,int index)
 {
     if(hash_table[index] == NULL) //boundary condition
@@ -119,12 +126,14 @@ void insertAtIndex(Opcode *Node,int index)
         Node->next=NULL;
     }
 }
+
 //After having calculated the index, the opcode is inserted at the index in the hash table.
 void insertIntoHashMap(Opcode *Node)
 {
     int index = getHashIndex(Node->name);
     insertAtIndex(Node,index);
 }
+
 //This function is used to get the hash index and insert the opcode at the index calculated.
 int *getAddressCode(char* temp)
 {
@@ -143,8 +152,10 @@ int *getAddressCode(char* temp)
     val = conBin(num);
     return val;
 }
-//This function takes a symbol (presumably a label or address) as input and searches for it in the symbol table.
-//If found, it retrieves the associated address and converts it to a 10-bit binary array using the conBin function.
+
+/*This function takes a symbol (presumably a label or address) as input and searches for it in the symbol table.
+If found, it retrieves the associated address and converts it to a 10-bit binary array using the conBin function.*/
+
 char * getRegisterCode(char* temp)
 {
     char *s;
@@ -176,11 +187,13 @@ char * getRegisterCode(char* temp)
         s = "10101";
     return s;
 }
+
 //This function maps the registers to binary strings
 char *getConstantCode(int temp)
 {
     return convertTo5BitBinaryString(temp);
 }
+
 //This function calls the 5-bit binary string function to retreieve the 5 bit binary string value.
 struct Opcode* getOpcodeNode(char *op)
 {
@@ -191,7 +204,6 @@ struct Opcode* getOpcodeNode(char *op)
         printf("Wrong Opcode");
         return NULL;
     }
-
     else
     {
         temp = hash_table[index];
@@ -209,20 +221,20 @@ struct Opcode* getOpcodeNode(char *op)
             return temp;
         }
     }
-
 }
-//This function retrieves an opcode node from the hash table based on the opcode name.
-//It calculates the hash index using the getHashIndex function, then searches for the opcode in the corresponding hash chain.
-//If found, it returns a pointer to the Opcode structure; otherwise, it returns NULL.
+
+/*This function retrieves an opcode node from the hash table based on the opcode name.
+It calculates the hash index using the getHashIndex function, then searches for the opcode in the corresponding hash chain.
+If found, it returns a pointer to the Opcode structure; otherwise, it returns NULL.*/
+
 char * getOpcodeFormat(Opcode* temp)
 {
     return temp->format;
 }
 
-
 int main()
 {
-    FILE *input_opcode;
+    FILE *input_opcode; 
     FILE *output_machine_code;
     FILE *input_instructions;
     int ilc=0;  //Instruction Location Counter
@@ -287,13 +299,13 @@ int main()
     char k;
     char op[100];
 
-    /***********************************************************************************************/
-	/*First pass for generation of symbol table*/
+/***********************************************************************************************/
+/*First pass for generation of symbol table*/
+/***********************************************************************************************/
 	
     while ( fgets ( op, sizeof op, input_instructions ) != NULL ) /* read a line */
     {
        int l=0;
-
        while(op[l+1]!='\0')
        {
         if(op[l]==':')   //Its a label
@@ -322,57 +334,56 @@ int main()
      ilc++;
  }
    fclose(input_instructions);
-      /*PRINT SYMBOL TABLE*/
-    Symbol *p;
-    p=head;
-    printf("\n\nSymbol Table\n\n");
-    FILE *f = fopen("symbol_table.txt","w+");
-    while(p!=NULL)
-    {
-        printf("%s :: ",p->name);
-        fprintf(f,"%s :: ",p->name);
-        printf("%d\n",p->add);
-        fprintf(f,"%d\n",p->add);
-        p = p->next;
-    }
-   fclose(f);
-    /***********************************************************************************************/
-    /*Second pass for generation of binary codes*/
+  
    input_instructions = fopen("input_instructions.txt","r+");
    int * binary;
    char test[100];
    int count;
-    
+    // The code reads the first word on the line, which is assumed to be the opcode (operation code) of the instruction.
     do
     {
        k=fscanf(input_instructions,"%s",op);
        printf("WORD SCANNED IS %s  \n",op);
-            /*check if opcode or label*/
+        /*check if opcode or label*/
        int l=0;
        while(op[l+1]!='\0')
        {
            l++;
        }
+	// It checks if the opcode ends with a colon (':'). If it does, it is considered a label,
        if(op[l]==':')   //Its a label
        {
-        	printf("Label Found!\n");
+            printf("Label Found!\n");
             fprintf(output_machine_code,"\n");
            //handle label
        }
        else
        {
+	  /*Handles opcode: If the opcode is not a label, the code performs the following steps:
+	  Gets opcode information: It calls a function getOpcodeNode(op) to retrieve information about the opcode.
+          This function returns a node containing the opcode, machine code representation and the format of its operands (e.g., zero operands, one register operand, etc.).
+	  Prints machine code: The code then prints the machine code of the opcode to the output file.*/
+	  
            char temp[100];
            char temp2[100];
            char temp3[100];
            int temp4;
+	       
             //handle opcode and print corresponding machine code
             Opcode* current_node = getOpcodeNode(op);
             fprintf(output_machine_code,"%s",current_node->code);//print machine code of the opcode
 
+	   /* Handles operands: Based on the format of the operands retrieved from getOpcodeNode(op), the code reads
+   	    the operands from the input file and performs the following:*/
+	   // Zero operands: If the opcode has no operands (format "z"), the code does nothing.
+	       
             if (strcmp("z",getOpcodeFormat(current_node))==0)   //ZERO OPERAND INSTRUCTION
             {
                 fprintf(output_machine_code,"\n");//Do nothing
             }
+	    /*One register operand: If the opcode has one register operand (format "r"), the code reads the register name from the input file, 
+	    calls a function getRegisterCode(temp) to get the binary code for the register, and prints the binary code to the output file.*/
+		    
             else if(strcmp("r",getOpcodeFormat(current_node))==0)   //ONE OPERAND REGISTER OPERAND INSTRUCTION
             {
                 k = fscanf(input_instructions,"%s",temp); //read corresponding register code
@@ -380,6 +391,11 @@ int main()
                 fprintf(output_machine_code,"%s",getRegisterCode(temp)); //write corresponding register code in binary
                 fprintf(output_machine_code,"\n");
             }
+
+	    /*One address operand: If the opcode has one address operand (format "a"), the code reads the address from the input file,
+            calls a function getAddressCode(temp) to get the binary code for the address (likely an integer value), and prints the binary code
+            to the output file.*/
+		    
             else if(strcmp("a",getOpcodeFormat(current_node))==0)   //ONE OPERAND ADDRESS OPERAND INSTRUCTION
             {
                 k = fscanf(input_instructions,"%s",temp);
@@ -390,6 +406,10 @@ int main()
                 }
                 fprintf(output_machine_code,"\n");
             }
+
+	    /*Two register operands: If the opcode has two register operands (format "rr"), the code reads the two register names from the 
+     	     input file,calls getRegisterCode(temp) for each register to get their binary codes, and prints the binary codes to the output file.*/
+		    
             else if(strcmp("rr",getOpcodeFormat(current_node))==0)   //TWO OPERAND REGISTER REGISTER OPERAND INSTRUCTION
             {
                 //printf("inside two");
@@ -399,12 +419,17 @@ int main()
                 fprintf(output_machine_code,"%s",getRegisterCode(temp2));
                 fprintf(output_machine_code,"\n");
             }
+
+	    /*Two operands: register and constant: If the opcode has one register operand and one constant operand (format "ri"), the code reads the
+     register name and the constant value from the input file. It then calls getRegisterCode(temp) to get the binary code for the register. For the
+     constant operand, it converts the decimal value to binary using a function conBin(temp4). It then prints the binary codes for the
+     register and the constant to the output file.*/
+            
             else if(strcmp("ri",getOpcodeFormat(current_node))==0)   //TWO OPERAND REGISTER CONSTANT INSTRUCTION
             {
                 k = fscanf(input_instructions,"%s",temp);
                 k = fscanf(input_instructions,"%d",&temp4);
                 fprintf(output_machine_code,"%s",getRegisterCode(temp));
-              //  fprintf(output_machine_code,"%s",getConstantCode(temp4));
                 binary = conBin(temp4);
                 for(count=0;count<10;count++)
                 {
@@ -412,8 +437,23 @@ int main()
                 }
                 fprintf(output_machine_code,"\n");
             }
-            //removed 3 operand register register register
-            
+		    
+	    else if(strcmp("rrr",getOpcodeFormat(current_node))==0)   //THREE OPERAND REGISTER-REGISTER-REGISTER INSTRUCTION
+            {
+                k = fscanf(input_instructions,"%s",temp);
+                k = fscanf(input_instructions,"%s",temp2);
+                k = fscanf(input_instructions,"%s",temp3);
+                fprintf(output_machine_code,"%s",getRegisterCode(temp));
+                fprintf(output_machine_code,"%s",getRegisterCode(temp2));
+                fprintf(output_machine_code,"%s",getRegisterCode(temp3));
+                fprintf(output_machine_code,"\n");
+            }
+
+           /*Three operands: register-register-immediate: If the opcode has three operands (one register, one register, and one immediate value) 
+	   (format "rri"), the code reads the two register names and the constant value from the input file. It then performs similar steps as 
+    	   the two-operand (register and constant) case  to get the binary codes for the register operands and the constant operand. Finally, 
+	    it prints the binary codes to the output file.*/
+		    
             else if(strcmp("rri",getOpcodeFormat(current_node))==0)   //THREE OPERAND REGISTER-REGISTER-INTERMEDIATE INSTRUCTION
             {
                 k = fscanf(input_instructions,"%s",temp);
