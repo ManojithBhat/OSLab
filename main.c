@@ -137,9 +137,7 @@ char * getRegisterCode(char* temp)
 {
     char *s;
     if (strcmp(temp,"R0") == 0)
-    {
         s = "00000";
-    }
     else if (strcmp(temp,"R1") == 0)
         s = "00001";
     else if (strcmp(temp,"R2") == 0)
@@ -150,26 +148,8 @@ char * getRegisterCode(char* temp)
         s = "00100";
     else if (strcmp(temp,"R5") == 0)
         s = "00101";
-    else if (strcmp(temp,"R6") == 0)
-        s = "00110";
-    else if (strcmp(temp,"R7") == 0)
-        s = "00111";
-    else if (strcmp(temp,"R8") == 0)
-        s = "01000";
-    else if (strcmp(temp,"R9") == 0)
-        s = "01001";
     else if (strcmp(temp,"R10") == 0)
         s = "01010";
-    else if (strcmp(temp,"R11") == 0)
-        s = "01011";
-    else if (strcmp(temp,"R12") == 0)
-        s = "01100";
-    else if (strcmp(temp,"R13") == 0)
-        s = "01101";
-    else if (strcmp(temp,"R14") == 0)
-        s = "01110";
-    else if (strcmp(temp,"R15") == 0)
-        s = "01111";
     else if (strcmp(temp,"A1") == 0)
         s = "10000";
     else if (strcmp(temp,"A2") == 0)
