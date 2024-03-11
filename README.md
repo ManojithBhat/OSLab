@@ -10,7 +10,7 @@ Assembler is a program for converting instructions that are written in low-level
 An assembler that generates the object code directly in memory for immediate execution. It passes through the source code only once and generates instructions by evaluating the mnemonics in operation field and finds the value of symbol and literals to produce machine code.
 
 Two pass Assembler utilizes two stage process to convert assembly language to machine code 
-#### First Pass:
+#### Pass-1:
 Defines symbols and literals and remembers them in symbolic table form and literal table form respectively. Keep track of location counter. Process pseudo-operations.
 #### Pass-2:
 Generate object code by converting symbolic op-code into corresponding numeric op-code.
