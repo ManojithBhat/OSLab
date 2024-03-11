@@ -268,6 +268,7 @@ int main()
 
 
     }while(fgets(test1, sizeof test1, input_opcode)!=NULL);
+	//Reading each opcode and inserting its binary codes intp the hash map
 
         //At this point we have a hash-map of Opcodes
 
@@ -333,11 +334,7 @@ int main()
      ilc++;
  }
    fclose(input_instructions);
-   
-/***********************************************************************************************/
-/*Second pass for generation of binary codes*/
-/***********************************************************************************************/
-	
+  
    input_instructions = fopen("input_instructions.txt","r+");
    int * binary;
    char test[100];
@@ -473,23 +470,12 @@ int main()
             }
        }
 
-    }while(fgets(test, sizeof test, input_instructions)!=NULL);
-    printf("\n\nSymbol Table\n\n");
+    }
+    while(fgets(test, sizeof test, input_instructions)!=NULL);
+   
     fclose(input_instructions);
     fclose(output_machine_code);
     fclose(input_opcode);
-
-    /*PRINT SYMBOL TABLE*/
-    Symbol *p;
-    p=head;
-    FILE *f = fopen("symbol_table.txt","w+");
-    while(p!=NULL)
-    {
-        printf("%s :: ",p->name);
-        fprintf(f,"%s :: ",p->name);
-        printf("%d\n",p->add);
-        fprintf(f,"%d\n",p->add);
-        p = p->next;
-    }
+ 
     return 0;
 }
