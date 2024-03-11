@@ -256,7 +256,7 @@ int main()
 
 
     }while(fgets(test1, sizeof test1, input_opcode)!=NULL);
-	//Reading each opcode and inserting its binary cpes intp the hash map
+	//Reading each opcode and inserting its binary codes intp the hash map
 
         //At this point we have a hash-map of Opcodes
 
